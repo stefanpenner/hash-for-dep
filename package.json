@@ -4,7 +4,8 @@
   "description": "generates a hash that represents a module and its depenencies uniqueness",
   "main": "index.js",
   "scripts": {
-    "test": "mocha tests/**/*-test.js"
+    "test": "mocha tests/**/*-test.js tests/jshint.spec.js",
+    "test:debug": "mocha debug tests/**/*-test.js tests/jshint.spec.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
     "resolve": "^1.1.6"
   },
   "devDependencies": {
-    "mocha": "^2.2.4"
+    "mocha": "^2.2.4",
+    "mocha-jshint": "^1.0.0"
   }
 }
