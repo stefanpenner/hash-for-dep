@@ -6,7 +6,7 @@ var hashForDep = require('../');
 var fixturesPath = path.join(__dirname, 'fixtures');
 
 describe('hashForDep', function() {
-  it('Provides a consistent hash for a dependent package that *looks* like an md5', function() {
+  it('Provides a consistent md5 hash for a dependent package', function() {
     var hashTreeCallCount = 0;
     var hashTreePaths = [
       path.join(fixturesPath, '/node_modules/dedupped/'),
