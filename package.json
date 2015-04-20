@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha tests/**/*-test.js tests/jshint.spec.js",
+    "test:dot": "mocha --reporter dot tests/**/*-test.js tests/jshint.spec.js",
     "test:debug": "mocha debug tests/**/*-test.js tests/jshint.spec.js"
   },
   "repository": {
