@@ -11,4 +11,8 @@ describe('resolvePkg', function() {
     assert.equal(resolvePkg('foo', fixturesPath), path.join(fixturesPath, 'node_modules/foo/index.js'));
     assert.equal(resolvePkg('/my-cool/path/', fixturesPath), '/my-cool/path/');
   });
+
+  it('Resolves to the module directory if no main entry is defined', function() {
+    assert.equal(resolvePkg('no-main/', fixturesPath), path.join(fixturesPath, 'node_modules/no-main/'));
+  });
 });
