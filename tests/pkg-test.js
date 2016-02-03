@@ -15,7 +15,7 @@ describe('pkg', function() {
         bar: '1.0.0',
         dedupped: '1.0.0'
       },
-      path: path.join(fixturesPath, '/node_modules/foo/index.js'),
+      path: path.join(fixturesPath, '/node_modules/foo/'),
       baseDir: path.join(fixturesPath, '/node_modules/foo/')
     };
 
