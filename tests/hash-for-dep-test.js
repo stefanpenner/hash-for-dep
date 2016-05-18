@@ -6,7 +6,7 @@ var hashForDep = require('../');
 var fixturesPath = path.join(__dirname, 'fixtures');
 
 describe('hashForDep', function() {
-  it('Provides a consistent md5 hash for a dependent package', function() {
+  it('Provides a consistent sha1 hash for a dependent package', function() {
     var hashTreeCallCount = 0;
     var hashTreePaths = [
       path.join(fixturesPath, '/node_modules/dedupped/'),
@@ -21,6 +21,6 @@ describe('hashForDep', function() {
     });
 
     assert.equal(hashTreeCallCount, 3, 'hashTree override was called correct number of times');
-    assert.equal(result, 'a4756b662e8a0f5607e1376405d61bfb', 'Expected md5');
+    assert.equal(result, 'f7ea6f1a10c65f054dc3b094a693b0ff6d8f0fad', 'Expected sha1');
   });
 });

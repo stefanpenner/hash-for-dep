@@ -14,6 +14,6 @@ var statPathsFor = require('./lib/stat-paths-for');
 module.exports = function hashForDep(name, dir, _hashTreeOverride) {
   var inputHashes = statPathsFor(name, dir).map(_hashTreeOverride || helpers.hashTree).join(0x00);
 
-  return crypto.createHash('md5').
+  return crypto.createHash('sha1').
     update(inputHashes).digest('hex');
 };
