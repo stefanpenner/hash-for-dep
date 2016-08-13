@@ -36,4 +36,13 @@ describe('moduleBaseDir', function() {
 
     assert.equal(actual, expected);
   });
+
+  it('Handles deep path', function() {
+    var fixturesPath = path.join(__dirname, 'fixtures');
+    var moduleName = 'deep-files';
+    var moduleBaseDir = path.join(fixturesPath, 'node_modules', moduleName);
+    var fullPath = path.join(moduleBaseDir, 'lib', 'utils') + path.sep;
+
+    assert.equal(getModuleBaseDir(fullPath, fullPath), moduleBaseDir);
+  });
 });
