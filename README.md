@@ -3,8 +3,8 @@
 Generate a hash representing the stats of this module files and all its descendents files.
 
 ```js
-var hasForDep = require('hash-for-dep');
+var hashForDep = require('hash-for-dep');
 
-hasForDep('rsvp'); // if RSVP is a dependency of the current project, you will get a checksum for it
-hasForDep('rsvp', 'path/to/other/project'); //  you will get a checksum for RSVP resolved relative to the provided root
+hashForDep('rsvp'); // if RSVP is a dependency of the current project, you will get a checksum for it
+hashForDep('rsvp', 'path/to/other/project'); //  you will get a checksum for RSVP resolved relative to the provided root
 ```
