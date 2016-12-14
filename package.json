@@ -19,6 +19,7 @@
   "homepage": "https://github.com/stefanpenner/hash-for-dep#readme",
   "dependencies": {
     "broccoli-kitchen-sink-helpers": "^0.3.1",
+    "heimdalljs": "^0.2.3",
     "resolve": "^1.1.6"
   },
   "devDependencies": {
