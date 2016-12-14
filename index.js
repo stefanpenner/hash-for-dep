@@ -2,6 +2,11 @@
 var helpers = require('broccoli-kitchen-sink-helpers');
 var crypto = require('crypto');
 var statPathsFor = require('./lib/stat-paths-for');
+var heimdall = require('heimdalljs');
+
+function HashForDepSchema() {
+  this.paths = 0;
+}
 
 /* @public
  *
@@ -12,8 +17,27 @@ var statPathsFor = require('./lib/stat-paths-for');
  * @return {String} a hash representing the stats of this module and all its descendents
  */
 module.exports = function hashForDep(name, dir, _hashTreeOverride) {
-  var inputHashes = statPathsFor(name, dir).map(_hashTreeOverride || helpers.hashTree).join(0x00);
+  var heimdallNodeOptions = {
+    name: 'hashForDep(' + name + ')',
+    hashForDep: true,
+    dependencyName: name,
+    rootDir: dir
+  };
 
-  return crypto.createHash('sha1').
-    update(inputHashes).digest('hex');
+  var heimdallNode = heimdall.start(heimdallNodeOptions, HashForDepSchema);
+
+  var inputHashes = statPathsFor(name, dir).map(function(statPath) {
+    var hashFn = _hashTreeOverride || helpers.hashTree;
+
+    heimdallNode.stats.paths++;
+
+    return hashFn(statPath);
+  }).join(0x00);
+
+  var hash = crypto.createHash('sha1').
+      update(inputHashes).digest('hex');
+
+  heimdallNode.stop();
+
+  return hash;
 };
