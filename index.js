@@ -5,6 +5,7 @@ var statPathsFor = require('./lib/stat-paths-for');
 var heimdall = require('heimdalljs');
 var Cache = require('./lib/cache');
 var cacheKey = require('./lib/cache-key');
+var logger = require('heimdalljs-logger')('hash-for-dep:');
 
 var CACHE = new Cache();
 
@@ -55,8 +56,11 @@ module.exports = function hashForDep(name, dir, _hashTreeOverride, _skipCache) {
   var heimdallNode = heimdall.start(heimdallNodeOptions, HashForDepSchema);
 
   if (CACHE.has(key)) {
+    logger.info('cache hit: %s', key);
     hash = CACHE.get(key);
   } else {
+    var start = Date.now();
+
     var inputHashes = statPathsFor(name, dir).map(function(statPath) {
       var hashFn = _hashTreeOverride || helpers.hashTree;
 
@@ -68,6 +72,7 @@ module.exports = function hashForDep(name, dir, _hashTreeOverride, _skipCache) {
     hash = crypto.createHash('sha1').
       update(inputHashes).digest('hex');
 
+    logger.info('cache miss: %s, paths: %d, took: %dms', key, heimdallNode.stats.paths, Date.now() - start);
     CACHE.set(key, hash);
   }
 
