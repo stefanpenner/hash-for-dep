@@ -23,6 +23,7 @@
     "resolve": "^1.1.6"
   },
   "devDependencies": {
+    "chai": "^3.5.0",
     "mocha": "^2.2.4",
     "mocha-jshint": "^1.0.0"
   }
