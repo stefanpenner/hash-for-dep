@@ -35,12 +35,12 @@ describe('hashForDep', function() {
 
       var first = hashForDep('foo', fixturesPath);
 
-      expect(hashForDep._cache.size).to.eql(1);
+      expect(hashForDep._cache.size).to.eql(4);
 
       var second = hashForDep('foo', fixturesPath);
 
       expect(first).to.eql(second);
-      expect(hashForDep._cache.size).to.eql(1);
+      expect(hashForDep._cache.size).to.eql(4);
 
       hashForDep._resetCache();
 
@@ -48,11 +48,11 @@ describe('hashForDep', function() {
 
       first = hashForDep('foo', fixturesPath);
 
-      expect(hashForDep._cache.size).to.eql(1);
+      expect(hashForDep._cache.size).to.eql(4);
 
       second = hashForDep('foo', fixturesPath);
 
-      expect(hashForDep._cache.size).to.eql(1);
+      expect(hashForDep._cache.size).to.eql(4);
       expect(first).to.eql(second);
     });
 

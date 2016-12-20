@@ -25,6 +25,7 @@ function cacheSet(key, value) {
   CACHE[key] = value;
   return value;
 }
+
 /* @public
  *
  * @method hashForDep
@@ -66,7 +67,20 @@ module.exports = function hashForDep(name, dir, _hashTreeOverride, _skipCache) {
 
       heimdallNode.stats.paths++;
 
-      return hashFn(statPath);
+      var key = 'hashOf:' + statPath;
+      var hash;
+
+      if (skipCache === false && CACHE.has(key)) {
+        logger.debug('HIT', key)
+        hash = CACHE.get(key);
+      } else {
+        logger.debug('MISS', key)
+        hash = hashFn(statPath);
+        if (skipCache === false) {
+          CACHE.set(key, hash);
+        }
+      }
+      return hash;
     }).join(0x00);
 
     hash = crypto.createHash('sha1').
