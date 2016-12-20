@@ -1,6 +1,6 @@
 {
   "name": "hash-for-dep",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "generates a hash that represents a module and its depenencies uniqueness",
   "main": "index.js",
   "scripts": {
