@@ -35,12 +35,12 @@ function cacheSet(key, value) {
  */
 module.exports = function hashForDep(name, dir, _hashTreeOverride, _skipCache) {
   var skipCache = false;
-  var cacheKey, hash;
+  var key, hash;
 
   if (typeof _hashTreeOverride === 'function' || _skipCache === true) {
     skipCache = true;
   } else {
-    cacheKey = module.exports.cacheKey(name, dir);
+    key = cacheKey(name, dir);
   }
 
   var heimdallNodeOptions = {
@@ -49,13 +49,13 @@ module.exports = function hashForDep(name, dir, _hashTreeOverride, _skipCache) {
     dependencyName: name,
     rootDir: dir,
     skipCache: skipCache,
-    cacheKey: cacheKey
+    cacheKey: key
   };
 
   var heimdallNode = heimdall.start(heimdallNodeOptions, HashForDepSchema);
 
-  if (CACHE.has(cacheKey)) {
-    hash = CACHE.get(cacheKey);
+  if (CACHE.has(key)) {
+    hash = CACHE.get(key);
   } else {
     var inputHashes = statPathsFor(name, dir).map(function(statPath) {
       var hashFn = _hashTreeOverride || helpers.hashTree;
@@ -67,6 +67,8 @@ module.exports = function hashForDep(name, dir, _hashTreeOverride, _skipCache) {
 
     hash = crypto.createHash('sha1').
       update(inputHashes).digest('hex');
+
+    CACHE.set(key, hash);
   }
 
   heimdallNode.stop();
@@ -77,6 +79,8 @@ module.exports._resetCache = function() {
   CACHE = new Cache();
 };
 
-module.exports._cache = function() {
-  return CACHE;
-};
+Object.defineProperty(module.exports, '_cache', {
+  get: function() {
+    return CACHE;
+  }
+});

@@ -65,4 +65,25 @@ describe('Cache', function() {
       expect(cache.has('foo')).to.eql(false);
     });
   });
+
+  describe('.size', function() {
+    it('is 0 when empty', function() {
+      expect(cache.size).to.eql(0);
+    });
+
+    it('is 1 when added to', function() {
+      expect(cache.size).to.eql(0);
+      cache.set('fo', 1);
+      expect(cache.size).to.eql(1);
+    });
+
+
+    it('handles deletes', function() {
+      expect(cache.size).to.eql(0);
+      cache.set('fo', 1);
+      expect(cache.size).to.eql(1);
+      cache.delete('fo');
+      expect(cache.size).to.eql(0);
+    });
+  });
 });
