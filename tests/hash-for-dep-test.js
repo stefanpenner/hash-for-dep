@@ -56,7 +56,7 @@ describe('hashForDep', function() {
       expect(first).to.eql(second);
     });
 
-    it('skip cache, when given a custom hashTreOverride', function() {
+    it('skips cache, when given a custom hashTreeOverride', function() {
       expect(hashForDep._cache.size).to.eql(0);
 
       var first = hashForDep('foo', fixturesPath, function() {});
