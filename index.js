@@ -55,7 +55,7 @@ module.exports = function hashForDep(name, dir, _hashTreeOverride, _skipCache) {
 
   var heimdallNode = heimdall.start(heimdallNodeOptions, HashForDepSchema);
 
-  if (CACHE.has(key)) {
+  if (skipCache === false && CACHE.has(key)) {
     logger.info('cache hit: %s', key);
     hash = CACHE.get(key);
   } else {
@@ -73,7 +73,10 @@ module.exports = function hashForDep(name, dir, _hashTreeOverride, _skipCache) {
       update(inputHashes).digest('hex');
 
     logger.info('cache miss: %s, paths: %d, took: %dms', key, heimdallNode.stats.paths, Date.now() - start);
-    CACHE.set(key, hash);
+
+    if (skipCache === false) {
+      CACHE.set(key, hash);
+    }
   }
 
   heimdallNode.stop();

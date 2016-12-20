@@ -56,5 +56,30 @@ describe('hashForDep', function() {
       expect(first).to.eql(second);
     });
 
+    it('skips cache, when given a custom hashTreeOverride', function() {
+      expect(hashForDep._cache.size).to.eql(0);
+
+      var first = hashForDep('foo', fixturesPath, function() {});
+
+      expect(hashForDep._cache.size).to.eql(0);
+
+      var second = hashForDep('foo', fixturesPath, function() {});
+
+      expect(first).to.eql(second);
+      expect(hashForDep._cache.size).to.eql(0);
+
+      hashForDep._resetCache();
+
+      expect(hashForDep._cache.size).to.eql(0);
+
+      first = hashForDep('foo', fixturesPath, function() {});
+
+      expect(hashForDep._cache.size).to.eql(0);
+
+      second = hashForDep('foo', fixturesPath, function() {});
+
+      expect(hashForDep._cache.size).to.eql(0);
+      expect(first).to.eql(second);
+    });
   });
 });
