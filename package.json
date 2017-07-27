@@ -21,7 +21,7 @@
     "broccoli-kitchen-sink-helpers": "^0.3.1",
     "heimdalljs": "^0.2.3",
     "heimdalljs-logger": "^0.1.7",
-    "resolve": "^1.1.6"
+    "resolve": "^1.4.0"
   },
   "devDependencies": {
     "chai": "^3.5.0",
