@@ -21,4 +21,8 @@ describe('pkg', function() {
 
     assert.deepEqual(pkg('foo', fixturesPath), expectedPkg);
   });
+
+  it('does not error when package is missing', function() {
+    assert.deepEqual(pkg('derpy-herky', fixturesPath), null);
+  });
 });

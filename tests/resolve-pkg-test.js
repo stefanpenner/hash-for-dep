@@ -40,6 +40,10 @@ describe('resolvePkg', function() {
     assert.equal(resolvePkg('no-main/', fixturesPath), path.join(fixturesPath, 'node_modules/no-main/'));
   });
 
+  it('does not error if package cannot be found', function() {
+    assert.equal(resolvePkg('cannot-find-me', fixturesPath), null);
+  });
+
   it('Don\'t preserve symlinks when resolving package', function() {
     assert.equal(resolvePkg('foo', symlinkDir), path.join(fixturesPath, 'node_modules/foo'));
   });
