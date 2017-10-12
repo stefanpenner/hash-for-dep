@@ -15,4 +15,8 @@ describe('statPathsFor', function() {
 
     assert.deepEqual(statPathsFor('foo', fixturesPath), expectedStatPaths);
   });
+
+  it('should return an empty array when a module cannot be found', function() {
+    assert.deepEqual(statPathsFor('asdfasdf', fixturesPath), []);
+  });
 });
