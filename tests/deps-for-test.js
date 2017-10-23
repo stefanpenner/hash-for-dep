@@ -13,7 +13,8 @@ describe('depsFor', function() {
       main: 'index.js',
       dependencies: {
         bar: '1.0.0',
-        dedupped: '1.0.0'
+        dedupped: '1.0.0',
+        missing: '1.0.0'
       },
       path: path.join(fixturesPath, '/node_modules/foo/'),
       baseDir: path.join(fixturesPath, '/node_modules/foo/')
