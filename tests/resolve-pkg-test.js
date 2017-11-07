@@ -31,9 +31,9 @@ describe('resolvePkg', function() {
   });
 
   it('Resolves to the package.json path of the provided package', function() {
-    assert.equal(resolvePkg('./'), path.resolve('./'));
+    assert.equal(resolvePkg('./'), path.resolve('./', 'package.json'));
     assert.equal(resolvePkg('foo', fixturesPath), path.join(fixturesPath, 'node_modules/foo/package.json'));
-    assert.equal(resolvePkg('/my-cool/path/', fixturesPath), '/my-cool/path/');
+    assert.equal(resolvePkg('/my-cool/path', fixturesPath), '/my-cool/path/package.json');
   });
 
   it('Resolves to the module directory if no main entry is defined', function() {

@@ -47,6 +47,24 @@ describe('hashForDep', function() {
     assert.equal(result, 'f7ea6f1a10c65f054dc3b094a693b0ff6d8f0fad', 'Expected sha1');
   });
 
+  it('properly handles being provided an absolute path', function() {
+    var hashTreeCallCount = 0;
+    var hashTreePaths = [
+      path.join(fixturesPath, '/node_modules/dedupped/'),
+      path.join(fixturesPath, '/node_modules/dedupped/node_modules/dedupped-child/'),
+      path.join(fixturesPath, '/node_modules/foo/')
+    ];
+
+    var result = hashForDep(path.join(fixturesPath, 'node_modules', 'foo'), undefined, function stableHashTreeOverride(statPath) {
+      hashTreeCallCount++;
+      assert.equal(statPath, hashTreePaths.shift(), 'hashTree override has correct path');
+      return 42;
+    });
+
+    assert.equal(hashTreeCallCount, 3, 'hashTree override was called correct number of times');
+    assert.equal(result, 'f7ea6f1a10c65f054dc3b094a693b0ff6d8f0fad', 'Expected sha1');
+  });
+
   describe('cache', function() {
     it('caches', function() {
       expect(hashForDep._cache.size).to.eql(0);
