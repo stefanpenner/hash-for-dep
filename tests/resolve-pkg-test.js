@@ -30,14 +30,14 @@ describe('resolvePkg', function() {
     fs.unlinkSync(symlinkDir);
   });
 
-  it('Resolves to the absolute main entry point path of the provided package', function() {
+  it('Resolves to the package.json path of the provided package', function() {
     assert.equal(resolvePkg('./'), path.resolve('./'));
-    assert.equal(resolvePkg('foo', fixturesPath), path.join(fixturesPath, 'node_modules/foo'));
+    assert.equal(resolvePkg('foo', fixturesPath), path.join(fixturesPath, 'node_modules/foo/package.json'));
     assert.equal(resolvePkg('/my-cool/path/', fixturesPath), '/my-cool/path/');
   });
 
   it('Resolves to the module directory if no main entry is defined', function() {
-    assert.equal(resolvePkg('no-main/', fixturesPath), path.join(fixturesPath, 'node_modules/no-main/'));
+    assert.equal(resolvePkg('no-main/', fixturesPath), path.join(fixturesPath, 'node_modules/no-main/package.json'));
   });
 
   it('does not error if package cannot be found', function() {
@@ -45,6 +45,6 @@ describe('resolvePkg', function() {
   });
 
   it('Don\'t preserve symlinks when resolving package', function() {
-    assert.equal(resolvePkg('foo', symlinkDir), path.join(fixturesPath, 'node_modules/foo'));
+    assert.equal(resolvePkg('foo', symlinkDir), path.join(fixturesPath, 'node_modules/foo/package.json'));
   });
 });

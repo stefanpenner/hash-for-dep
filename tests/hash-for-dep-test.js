@@ -29,6 +29,24 @@ describe('hashForDep', function() {
     assert.equal(result, 'f7ea6f1a10c65f054dc3b094a693b0ff6d8f0fad', 'Expected sha1');
   });
 
+  it('does not error when an empty node_module directories shadows a higher level package (npm@5.5.1)', function() {
+    var hashTreeCallCount = 0;
+    var hashTreePaths = [
+      path.join(fixturesPath, '/node_modules/dedupped/'),
+      path.join(fixturesPath, '/node_modules/dedupped/node_modules/dedupped-child/'),
+      path.join(fixturesPath, '/node_modules/empty-node-modules-directories/')
+    ];
+
+    var result = hashForDep('empty-node-modules-directories', fixturesPath, function stableHashTreeOverride(statPath) {
+      hashTreeCallCount++;
+      assert.equal(statPath, hashTreePaths.shift(), 'hashTree override has correct path');
+      return 42;
+    });
+
+    assert.equal(hashTreeCallCount, 3, 'hashTree override was called correct number of times');
+    assert.equal(result, 'f7ea6f1a10c65f054dc3b094a693b0ff6d8f0fad', 'Expected sha1');
+  });
+
   describe('cache', function() {
     it('caches', function() {
       expect(hashForDep._cache.size).to.eql(0);
