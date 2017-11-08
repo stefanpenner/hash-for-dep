@@ -16,13 +16,11 @@ describe('depsFor', function() {
         dedupped: '1.0.0',
         missing: '1.0.0'
       },
-      path: path.join(fixturesPath, '/node_modules/foo/'),
       baseDir: path.join(fixturesPath, '/node_modules/foo/')
     }, {
       name: 'bar',
       version: '1.0.0',
       main: 'index.js',
-      path: path.join(fixturesPath, '/node_modules/foo/node_modules/bar/'),
       baseDir: path.join(fixturesPath, '/node_modules/foo/node_modules/bar/')
     }, {
       name: 'dedupped',
@@ -31,13 +29,11 @@ describe('depsFor', function() {
       dependencies: {
         'dedupped-child': '1.0.0'
       },
-      path: path.join(fixturesPath, '/node_modules/dedupped/'),
       baseDir: path.join(fixturesPath, '/node_modules/dedupped/')
     }, {
       name: 'dedupped-child',
       version: '1.0.0',
       main: 'index.js',
-      path: path.join(fixturesPath, '/node_modules/dedupped/node_modules/dedupped-child/'),
       baseDir: path.join(fixturesPath, '/node_modules/dedupped/node_modules/dedupped-child/')
     }];
 

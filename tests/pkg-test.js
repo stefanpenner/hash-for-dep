@@ -6,7 +6,7 @@ var pkg = require('../lib/pkg');
 var fixturesPath = path.join(__dirname, 'fixtures');
 
 describe('pkg', function() {
-  it('Loads the package.json for a given package, with { path, baseDir } added', function() {
+  it('Loads the package.json for a given package, with { baseDir } added', function() {
     var expectedPkg = {
       name: 'foo',
       version: '1.0.0',
@@ -16,7 +16,6 @@ describe('pkg', function() {
         dedupped: '1.0.0',
         missing: '1.0.0'
       },
-      path: path.join(fixturesPath, '/node_modules/foo/'),
       baseDir: path.join(fixturesPath, '/node_modules/foo/')
     };
 
