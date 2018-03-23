@@ -13,7 +13,7 @@ hashForDep('rsvp', 'path/to/other/project'); //  you will get a checksum for RSV
 ## Cache
 
 NOTE: By default, these hashes are cached for the life of the process. As this
-is the same strategy node uses for `require(x)` we can safely follow suite.
+is the same strategy node uses for `require(x)` we can safely follow suit.
 
 That being said, some scenarios may exist where this is not wanted. So just
 like `require._cache` exists, we provide the following options:
