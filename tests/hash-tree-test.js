@@ -25,7 +25,7 @@ describe('stringifyFileInfo', function() {
       mtime: 5,
       mode: 6,
       size: 7
-    }), '\x005\x006\x007');
+    }), '|5|6|7');
   });
 });
 
