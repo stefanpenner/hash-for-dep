@@ -1,5 +1,5 @@
 'use strict';
-var helpers = require('broccoli-kitchen-sink-helpers');
+var hashTree = require('./lib/hash-tree');
 var crypto = require('crypto');
 var statPathsFor = require('./lib/stat-paths-for');
 var heimdall = require('heimdalljs');
@@ -63,7 +63,7 @@ module.exports = function hashForDep(name, dir, _hashTreeOverride, _skipCache) {
     var start = Date.now();
 
     var inputHashes = statPathsFor(name, dir).map(function(statPath) {
-      var hashFn = _hashTreeOverride || helpers.hashTree;
+      var hashFn = _hashTreeOverride || hashTree;
 
       heimdallNode.stats.paths++;
 

@@ -10,7 +10,8 @@ describe('statPathsFor', function() {
     var expectedStatPaths = [
       path.join(fixturesPath, '/node_modules/dedupped/'),
       path.join(fixturesPath, '/node_modules/dedupped/node_modules/dedupped-child/'),
-      path.join(fixturesPath, '/node_modules/foo/')
+      path.join(fixturesPath, '/node_modules/foo/'),
+      path.join(fixturesPath, '/node_modules/foo/node_modules/bar/')
     ];
 
     assert.deepEqual(statPathsFor('foo', fixturesPath), expectedStatPaths);
