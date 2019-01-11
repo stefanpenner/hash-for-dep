@@ -16,7 +16,8 @@ describe('hashForDep', function() {
     var hashTreePaths = [
       path.join(fixturesPath, '/node_modules/dedupped/'),
       path.join(fixturesPath, '/node_modules/dedupped/node_modules/dedupped-child/'),
-      path.join(fixturesPath, '/node_modules/foo/')
+      path.join(fixturesPath, '/node_modules/foo/'),
+      path.join(fixturesPath, '/node_modules/foo/node_modules/bar/')
     ];
 
     var result = hashForDep('foo', fixturesPath, function stableHashTreeOverride(statPath) {
@@ -25,8 +26,8 @@ describe('hashForDep', function() {
       return 42;
     });
 
-    assert.equal(hashTreeCallCount, 3, 'hashTree override was called correct number of times');
-    assert.equal(result, 'f7ea6f1a10c65f054dc3b094a693b0ff6d8f0fad', 'Expected sha1');
+    assert.equal(hashTreeCallCount, 4, 'hashTree override was called correct number of times');
+    assert.equal(result, 'c50b4fd6f7d64c1d81c9ec08c42e72fd27fc0f8c', 'Expected sha1');
   });
 
   it('does not error when an empty node_module directories shadows a higher level package (npm@5.5.1)', function() {
@@ -52,7 +53,8 @@ describe('hashForDep', function() {
     var hashTreePaths = [
       path.join(fixturesPath, '/node_modules/dedupped/'),
       path.join(fixturesPath, '/node_modules/dedupped/node_modules/dedupped-child/'),
-      path.join(fixturesPath, '/node_modules/foo/')
+      path.join(fixturesPath, '/node_modules/foo/'),
+      path.join(fixturesPath, '/node_modules/foo/node_modules/bar/')
     ];
 
     var result = hashForDep(path.join(fixturesPath, 'node_modules', 'foo'), undefined, function stableHashTreeOverride(statPath) {
@@ -61,8 +63,8 @@ describe('hashForDep', function() {
       return 42;
     });
 
-    assert.equal(hashTreeCallCount, 3, 'hashTree override was called correct number of times');
-    assert.equal(result, 'f7ea6f1a10c65f054dc3b094a693b0ff6d8f0fad', 'Expected sha1');
+    assert.equal(hashTreeCallCount, 4, 'hashTree override was called correct number of times');
+    assert.equal(result, 'c50b4fd6f7d64c1d81c9ec08c42e72fd27fc0f8c', 'Expected sha1');
   });
 
   describe('cache', function() {
@@ -71,12 +73,12 @@ describe('hashForDep', function() {
 
       var first = hashForDep('foo', fixturesPath);
 
-      expect(hashForDep._cache.size).to.eql(4);
+      expect(hashForDep._cache.size).to.eql(5);
 
       var second = hashForDep('foo', fixturesPath);
 
       expect(first).to.eql(second);
-      expect(hashForDep._cache.size).to.eql(4);
+      expect(hashForDep._cache.size).to.eql(5);
 
       hashForDep._resetCache();
 
@@ -84,11 +86,11 @@ describe('hashForDep', function() {
 
       first = hashForDep('foo', fixturesPath);
 
-      expect(hashForDep._cache.size).to.eql(4);
+      expect(hashForDep._cache.size).to.eql(5);
 
       second = hashForDep('foo', fixturesPath);
 
-      expect(hashForDep._cache.size).to.eql(4);
+      expect(hashForDep._cache.size).to.eql(5);
       expect(first).to.eql(second);
     });
 
