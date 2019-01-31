@@ -9,6 +9,7 @@ node_js:
   - "6"
   - "8"
   - "10"
+  - "11"
 before_install:
   - "npm config set spin false"
   - "npm install -g npm@^3"
