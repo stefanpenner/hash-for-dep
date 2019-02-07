@@ -5,6 +5,19 @@ var depsFor = require('../lib/deps-for');
 
 var fixturesPath = path.join(__dirname, 'fixtures');
 
+function findIndex(arr, cb) {
+  var foundIndex = -1;
+  
+  for (var index = 0; index < arr.length; index++) {
+    if (cb(arr[index])) {
+      foundIndex = index;
+      break;
+    }
+  }
+  
+  return foundIndex;  
+}
+
 describe('depsFor', function() {
   it('Constructs a set of all dependencies recursively', function() {
     var expectedDeps = [{
@@ -82,9 +95,8 @@ describe('depsFor', function() {
     assert.deepEqual(depsFor('optional', fixturesPath, { includeOptionalDeps: true }), expectedDeps);
 
     // remove "optional-foo" from the expectedDeps array
-    expectedDeps.splice(expectedDeps.findIndex(function(dep) { return dep.name === 'optional-foo'; }), 1);
+    expectedDeps.splice(findIndex(expectedDeps, function(dep) { return dep.name === 'optional-foo'; }), 1);
 
     assert.deepEqual(depsFor('optional', fixturesPath, { includeOptionalDeps: false }), expectedDeps);
   });
-
 });
