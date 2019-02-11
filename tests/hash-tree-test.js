@@ -105,5 +105,22 @@ describe('getFileInfos', function() {
       ]);
       assertValidLookingFileInfos(fileInfos);
     });
+
+    it('handles cycle', function() {
+      try {
+        fs.unlinkSync(__dirname + '/fixtures/contains-cycle/is-cycle');
+      } catch (e) {
+        if (typeof e === 'object' && e !== null && e.code === 'ENOENT') {
+          // handle
+        } else {
+          throw e;
+        }
+      }
+
+      fs.symlinkSync(__dirname + '/fixtures/contains-cycle/', __dirname + '/fixtures/contains-cycle/is-cycle');
+
+
+      assert.deepEqual(getFileInfos(__dirname + '/fixtures/contains-cycle'), []);
+    });
   });
 });
