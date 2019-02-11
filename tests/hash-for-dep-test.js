@@ -13,10 +13,13 @@ describe('hashForDep', function() {
 
   it('Provides a consistent sha1 hash for a dependent package', function() {
     var hashTreeCallCount = 0;
+
+    // NOTE: the order of the following is affected by how the hash-for-dep processing occurs
     var hashTreePaths = [
-      path.join(fixturesPath, '/node_modules/dedupped/'),
-      path.join(fixturesPath, '/node_modules/dedupped/node_modules/dedupped-child/'),
-      path.join(fixturesPath, '/node_modules/foo/')
+      path.join(fixturesPath, 'node_modules', 'foo'),
+      path.join(fixturesPath, 'node_modules', 'foo', 'node_modules', 'bar'),
+      path.join(fixturesPath, 'node_modules', 'dedupped'),
+      path.join(fixturesPath, 'node_modules', 'dedupped', 'node_modules', 'dedupped-child')
     ];
 
     var result = hashForDep('foo', fixturesPath, function stableHashTreeOverride(statPath) {
@@ -25,16 +28,16 @@ describe('hashForDep', function() {
       return 42;
     });
 
-    assert.equal(hashTreeCallCount, 3, 'hashTree override was called correct number of times');
-    assert.equal(result, 'f7ea6f1a10c65f054dc3b094a693b0ff6d8f0fad', 'Expected sha1');
+    assert.equal(hashTreeCallCount, 4, 'hashTree override was called correct number of times');
+    assert.equal(result, 'b2d270f1274267a5fe29a49b5d44bb86125977f9', 'Expected sha1');
   });
 
   it('does not error when an empty node_module directories shadows a higher level package (npm@5.5.1)', function() {
     var hashTreeCallCount = 0;
     var hashTreePaths = [
-      path.join(fixturesPath, '/node_modules/dedupped/'),
-      path.join(fixturesPath, '/node_modules/dedupped/node_modules/dedupped-child/'),
-      path.join(fixturesPath, '/node_modules/empty-node-modules-directories/')
+      path.join(fixturesPath, 'node_modules', 'empty-node-modules-directories'),
+      path.join(fixturesPath, 'node_modules', 'dedupped'),
+      path.join(fixturesPath, 'node_modules', 'dedupped', 'node_modules', 'dedupped-child')
     ];
 
     var result = hashForDep('empty-node-modules-directories', fixturesPath, function stableHashTreeOverride(statPath) {
@@ -44,15 +47,16 @@ describe('hashForDep', function() {
     });
 
     assert.equal(hashTreeCallCount, 3, 'hashTree override was called correct number of times');
-    assert.equal(result, 'f7ea6f1a10c65f054dc3b094a693b0ff6d8f0fad', 'Expected sha1');
+    assert.equal(result, 'e865cf8af067a03197e390c5c0adab43507469ee', 'Expected sha1');
   });
 
   it('properly handles being provided an absolute path', function() {
     var hashTreeCallCount = 0;
     var hashTreePaths = [
-      path.join(fixturesPath, '/node_modules/dedupped/'),
-      path.join(fixturesPath, '/node_modules/dedupped/node_modules/dedupped-child/'),
-      path.join(fixturesPath, '/node_modules/foo/')
+      path.join(fixturesPath, 'node_modules', 'foo'),
+      path.join(fixturesPath, 'node_modules', 'foo', 'node_modules', 'bar'),
+      path.join(fixturesPath, 'node_modules', 'dedupped'),
+      path.join(fixturesPath, 'node_modules', 'dedupped', 'node_modules', 'dedupped-child')
     ];
 
     var result = hashForDep(path.join(fixturesPath, 'node_modules', 'foo'), undefined, function stableHashTreeOverride(statPath) {
@@ -61,8 +65,8 @@ describe('hashForDep', function() {
       return 42;
     });
 
-    assert.equal(hashTreeCallCount, 3, 'hashTree override was called correct number of times');
-    assert.equal(result, 'f7ea6f1a10c65f054dc3b094a693b0ff6d8f0fad', 'Expected sha1');
+    assert.equal(hashTreeCallCount, 4, 'hashTree override was called correct number of times');
+    assert.equal(result, 'b2d270f1274267a5fe29a49b5d44bb86125977f9', 'Expected sha1');
   });
 
   describe('cache', function() {
@@ -116,6 +120,16 @@ describe('hashForDep', function() {
 
       expect(hashForDep._cache.size).to.eql(0);
       expect(first).to.eql(second);
+    });
+
+    it('all cache sizes', function() {
+      expect(hashForDep._cache.size).to.eql(0);
+
+      hashForDep('foo', fixturesPath);
+
+      expect(hashForDep._cache.size).to.eql(4);
+      expect(hashForDep._caches.MODULE_ENTRY.size).to.eql(4);
+      expect(hashForDep._caches.PATH.size).to.eql(5);
     });
   });
 });
