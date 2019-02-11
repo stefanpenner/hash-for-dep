@@ -3,6 +3,7 @@
 var assert = require('assert');
 var fs = require('fs');
 var hashTree = require('../lib/hash-tree');
+var path = require('path');
 
 function byRelativePath(info) {
   return info.fullPath.replace(__dirname, '');
@@ -41,14 +42,18 @@ describe('hashTree', function() {
   });
 
   it('if the tree changes, the hash changes', function() {
-    var first = hashTree(__dirname + '/fixtures/node_modules/foo');
-    var original = fs.readFileSync(__dirname + '/fixtures/node_modules/foo/index.js');
+    // NOTE: doing this on a directory no other test in the suite uses, since
+    // the mtime will change and modify the hash value.
+    var first = hashTree(__dirname + '/fixtures/node_modules/to-check-for-changes');
+    var INDEX_FILE_PATH = __dirname + '/fixtures/node_modules/to-check-for-changes/index.js';
+
+    var original = fs.readFileSync(INDEX_FILE_PATH);
 
     try {
-      fs.writeFileSync(__dirname + '/fixtures/node_modules/foo/index.js', original + 'SOMETHING NEW');
-      assert.notEqual(first, hashTree(__dirname + '/fixtures/node_modules/foo'));
+      fs.writeFileSync(INDEX_FILE_PATH, original + 'SOMETHING NEW');
+      assert.notEqual(first, hashTree(__dirname + '/fixtures/node_modules/to-check-for-changes'));
     } finally {
-      fs.writeFileSync(__dirname + '/fixtures/node_modules/foo/index.js', original);
+      fs.writeFileSync(INDEX_FILE_PATH, original);
     }
   });
 });
@@ -61,8 +66,8 @@ describe('getFileInfos', function() {
       var paths = fileInfos.map(byRelativePath);
 
       assert.deepEqual(paths, [
-        '/fixtures/node_modules/foo/index.js',
-        '/fixtures/node_modules/foo/package.json'
+        path.normalize('/fixtures/node_modules/foo/index.js'),
+        path.normalize('/fixtures/node_modules/foo/package.json')
       ]);
 
       assertValidLookingFileInfos(fileInfos);
@@ -73,8 +78,8 @@ describe('getFileInfos', function() {
       var paths = fileInfos.map(byRelativePath);
 
       assert.deepEqual(paths, [
-        '/fixtures/node_modules/dedupped/index.js',
-        '/fixtures/node_modules/dedupped/package.json'
+        path.normalize('/fixtures/node_modules/dedupped/index.js'),
+        path.normalize('/fixtures/node_modules/dedupped/package.json')
       ]);
       assertValidLookingFileInfos(fileInfos);
     });
@@ -84,7 +89,7 @@ describe('getFileInfos', function() {
       var paths = fileInfos.map(byRelativePath);
 
       assert.deepEqual(paths, [
-        '/fixtures/node_modules/no-main/package.json'
+        path.normalize('/fixtures/node_modules/no-main/package.json')
       ]);
       assertValidLookingFileInfos(fileInfos);
     });
@@ -94,9 +99,9 @@ describe('getFileInfos', function() {
       var paths = fileInfos.map(byRelativePath);
 
       assert.deepEqual(paths, [
-      '/fixtures/node_modules/with-nested-dirs/child/grand-child/index.js',
-      '/fixtures/node_modules/with-nested-dirs/child/index.js',
-      '/fixtures/node_modules/with-nested-dirs/index.js'
+        path.normalize('/fixtures/node_modules/with-nested-dirs/child/grand-child/index.js'),
+        path.normalize('/fixtures/node_modules/with-nested-dirs/child/index.js'),
+        path.normalize('/fixtures/node_modules/with-nested-dirs/index.js')
       ]);
       assertValidLookingFileInfos(fileInfos);
     });

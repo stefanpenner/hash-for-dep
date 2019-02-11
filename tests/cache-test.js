@@ -14,15 +14,15 @@ describe('Cache', function() {
   });
 
   describe('.set .get', function() {
-    it('get (no set)', function() {
+    it('get, no set', function() {
       expect(cache.get('foo')).to.eql(undefined);
     });
 
-    it('set (no get)', function() {
+    it('set, no get', function() {
       expect(cache.set('foo', 1)).to.eql(1);
     });
 
-    it('get set get set get', function() {
+    it('get, set, get, set, get', function() {
       expect(cache.get('foo')).to.eql(undefined);
       expect(cache.set('foo', 1)).to.eql(1);
       expect(cache.get('foo')).to.eql(1);
@@ -32,11 +32,11 @@ describe('Cache', function() {
   });
 
   describe('.has', function() {
-    it('has no set', function() {
+    it('has, no set', function() {
       expect(cache.has('foo')).to.eql(false);
     });
 
-   it('has post  set', function() {
+   it('has, post set', function() {
       expect(cache.set('foo', 1)).to.eql(1);
       expect(cache.has('foo')).to.eql(true);
 
@@ -52,13 +52,13 @@ describe('Cache', function() {
   });
 
   describe('.delete', function() {
-    it('delete no set', function() {
+    it('delete, no set', function() {
       expect(cache.has('foo')).to.eql(false);
       expect(cache.delete('foo')).to.eql(undefined);
       expect(cache.has('foo')).to.eql(false);
     });
 
-    it('delete post set', function() {
+    it('delete, post set', function() {
       expect(cache.set('foo', 1)).to.eql(1);
       expect(cache.has('foo')).to.eql(true);
       expect(cache.delete('foo')).to.eql(undefined);
