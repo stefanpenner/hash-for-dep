@@ -102,7 +102,7 @@ describe('depsFor', function() {
 
     assert.deepEqual(depsFor('optional', fixturesPath, { includeOptionalDeps: true }), expectedDeps);
 
-    // remove "optional-foo" from the expectedDeps array
+    // remove "optional-foo" & "optional-bar" from the expectedDeps array
     expectedDeps.splice(findIndex(expectedDeps, function(dep) { return dep.name === 'optional-foo'; }), 1);
     expectedDeps.splice(findIndex(expectedDeps, function(dep) { return dep.name === 'optional-bar'; }), 1);
 
