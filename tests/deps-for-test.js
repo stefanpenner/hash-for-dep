@@ -71,7 +71,15 @@ describe('depsFor', function() {
       name: 'optional-foo',
       version: '1.0.0',
       main: 'index.js',
+      optionalDependencies: {
+        'optional-bar': '1.0.0'
+      },
       baseDir: path.join(fixturesPath, '/node_modules/optional/node_modules/optional-foo/')
+    }, {
+      name: 'optional-bar',
+      version: '1.0.0',
+      main: 'index.js',
+      baseDir: path.join(fixturesPath, '/node_modules/optional/node_modules/optional-bar/')
     }, {
       name: 'bar',
       version: '1.0.0',
@@ -96,6 +104,7 @@ describe('depsFor', function() {
 
     // remove "optional-foo" from the expectedDeps array
     expectedDeps.splice(findIndex(expectedDeps, function(dep) { return dep.name === 'optional-foo'; }), 1);
+    expectedDeps.splice(findIndex(expectedDeps, function(dep) { return dep.name === 'optional-bar'; }), 1);
 
     assert.deepEqual(depsFor('optional', fixturesPath, { includeOptionalDeps: false }), expectedDeps);
   });
