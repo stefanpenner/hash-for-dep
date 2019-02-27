@@ -129,7 +129,7 @@ describe('hashForDep', function() {
 
       expect(hashForDep._cache.size).to.eql(4);
       expect(hashForDep._caches.MODULE_ENTRY.size).to.eql(4);
-      expect(hashForDep._caches.PATH.size).to.eql(5);
+      expect(hashForDep._caches.PATH.size).to.eql(10);
     });
   });
 });
