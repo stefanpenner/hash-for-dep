@@ -35,7 +35,7 @@ describe('ModuleEntry', function() {
 
   it('._gatherDependencies', function() {
     // gatherDependencies only occurs during getHash().
-    var moduleEntry = ModuleEntry.locate(caches, 'foo', fixturesPath, hashTree);  
+    var moduleEntry = ModuleEntry.locate(caches, 'foo', fixturesPath, hashTree);
 
     var dependencies = Object.create(null);
     moduleEntry._gatherDependencies(dependencies);
@@ -62,8 +62,8 @@ describe('ModuleEntry', function() {
 
     assert.equal(moduleEntry.rootDir,
                  FOO_DIR_PATH,
-                 'rootDir must be in node_modules/foo');
-    assert.equal(Object.keys(moduleEntry._dependencies).length, 2, 'foo._dependencies must have 2 entries');
+      'rootDir must be in node_modules/foo');
+    assert.equal(Object.keys(moduleEntry._dependencies).length, 3, 'foo._dependencies must have 2 entries');
 
     // XXX we should check which dependencies they are.
 
@@ -73,7 +73,7 @@ describe('ModuleEntry', function() {
     moduleEntry = ModuleEntry.locate(caches, 'foo', fixturesPath, hashTree);
 
     var hash2 = moduleEntry.getHash();
-    
+
     assert.equal(hash1, hash2, 'getHash should return the same hash after clearing and recalculating');
   });
 
@@ -84,7 +84,7 @@ describe('ModuleEntry', function() {
 
     var moduleEntry = ModuleEntry.locate(caches, 'foo', fixturesPath, newHashFn);
     assert.equal(moduleEntry.rootDir, FOO_DIR_PATH, 'rootDir must be in node_modules/foo');
-    assert.equal(Object.keys(moduleEntry._dependencies).length, 2, 'foo._dependencies must have 2 entries');
+    assert.equal(Object.keys(moduleEntry._dependencies).length, 3, 'foo._dependencies must have 2 entries');
 
     var hash1 = moduleEntry.getHash();
 
@@ -92,15 +92,19 @@ describe('ModuleEntry', function() {
     moduleEntry = ModuleEntry.locate(caches, 'foo', fixturesPath, newHashFn);
 
     var hash2 = moduleEntry.getHash();
-    
+
     assert.equal(hash1, hash2, 'getHash should return the same hash after clearing and recalculating');
   });
 
   it('.locate (class method) with invalid package', function() {
     var moduleEntry = ModuleEntry.locate(caches, 'foo2', fixturesPath, hashTree);
-    assert.isNull(moduleEntry);
+    var moduleEntry2 = ModuleEntry.locate(caches, 'foo2', fixturesPath, hashTree);
+    assert.isNotNull(moduleEntry);
+    var hash1 = moduleEntry.getHash();
+    assert.isOk(typeof hash1 === 'string');
+    assert.equal(hash1, moduleEntry2.getHash());
   });
-  
+
   it('.getHash', function() {
     var moduleEntry = ModuleEntry.locate(caches, 'foo', fixturesPath, hashTree);
 

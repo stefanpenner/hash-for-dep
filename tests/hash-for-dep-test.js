@@ -69,6 +69,11 @@ describe('hashForDep', function() {
     assert.equal(result, 'b2d270f1274267a5fe29a49b5d44bb86125977f9', 'Expected sha1');
   });
 
+  it('maintains compatibility for now, not erroring for garbage input', function() {
+    expect(hashForDep('garbage-non-existing')).to.eql('c5c7d7981c22e790055a9b6e98a2972b8d14a599');
+    expect(hashForDep('garbage-non-existing', 'with-garbage-basedir')).to.eql('507cb109ec6bd0781751f7eb65faf98183c79375');
+  });
+
   describe('cache', function() {
     it('caches', function() {
       expect(hashForDep._cache.size).to.eql(0);
@@ -129,7 +134,7 @@ describe('hashForDep', function() {
 
       expect(hashForDep._cache.size).to.eql(4);
       expect(hashForDep._caches.MODULE_ENTRY.size).to.eql(4);
-      expect(hashForDep._caches.PATH.size).to.eql(10);
+      expect(hashForDep._caches.PATH.size).to.eql(9);
     });
   });
 });
