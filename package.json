@@ -23,7 +23,7 @@
     "heimdalljs-logger": "^0.1.7",
     "path-root": "^0.1.1",
     "resolve": "^1.10.0",
-    "resolve-package-path": "^1.0.7"
+    "resolve-package-path": "^1.0.11"
   },
   "devDependencies": {
     "chai": "^3.5.0",
