@@ -377,10 +377,10 @@ readable-stream@1.1:
     isarray "0.0.1"
     string_decoder "~0.10.x"
 
-resolve-package-path@^1.0.7:
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/resolve-package-path/-/resolve-package-path-1.0.7.tgz#8a0be5165a95bb056580129a422ca89bf4dcae02"
-  integrity sha512-a9WCtYh41TQVAT/PBF32GdkpoGi9IG8chSHaMkBz6+IdK5C4aPhuWWfS7wuO8nhG+N988xWHdM2teHBhPZ3Ucg==
+resolve-package-path@^1.0.8:
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/resolve-package-path/-/resolve-package-path-1.0.8.tgz#336e1b6a34ba00877d095a698b27fdaea31d9059"
+  integrity sha512-MoNQpgAQsAUbq8UqhPWHWlcnuIlPyyqvVmshkSbY1WMttXHk7WCzN8vnFgrZkk3KeMaOSXZ0FuCGihNvbbTVow==
   dependencies:
     path-root "^0.1.1"
     resolve "^1.10.0"

@@ -43,8 +43,4 @@ describe('resolvePkg', function() {
   it('does not error if package cannot be found', function() {
     assert.equal(resolvePkg('cannot-find-me', fixturesPath), null);
   });
-
-  it('Don\'t preserve symlinks when resolving package', function() {
-    assert.equal(resolvePkg('foo', symlinkDir), path.join(fixturesPath, 'node_modules/foo/package.json'));
-  });
 });
