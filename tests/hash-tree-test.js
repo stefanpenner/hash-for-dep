@@ -119,8 +119,23 @@ describe('getFileInfos', function() {
 
       fs.symlinkSync(__dirname + '/fixtures/contains-cycle/', __dirname + '/fixtures/contains-cycle/is-cycle');
 
-
       assert.deepEqual(getFileInfos(__dirname + '/fixtures/contains-cycle'), []);
+    });
+
+    it('handles broken symlink', function() {
+      try {
+        fs.unlinkSync(__dirname + '/fixtures/broken-symlink/broken-symlink');
+      } catch (e) {
+        if (typeof e === 'object' && e !== null && e.code === 'ENOENT') {
+          // handle
+        } else {
+          throw e;
+        }
+      }
+
+      fs.symlinkSync('does-not-exist', __dirname + '/fixtures/broken-symlink/broken-symlink');
+
+      assert.deepEqual(getFileInfos(__dirname + '/fixtures/broken-symlink'), ['missing']);
     });
   });
 });
